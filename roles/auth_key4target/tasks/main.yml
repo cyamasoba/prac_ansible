@@ -1,4 +1,5 @@
 ---
+# authorized_keysディレクトリが存在するか確認
 - name: Ensure file "authorized_keys" exists
   file:
     path: /home/{{ uname }}/.ssh/authorized_keys
@@ -7,12 +8,14 @@
     group: "{{ uname }}"
     mode: "600"
 
+# ターゲットに対してコントローラの公開鍵の認証
 - name: Sent pubkey
   authorized_key:
     user: "{{ uname }}"
     state: present
     key: "{{ lookup('file', '/home/{{ uname }}/.ssh/id_rsa.pub')}}"
 
+# ターゲットの公開鍵をコントローラに送信
 - name: Get ssh pubkey
   fetch:
     src: /home/{{ uname }}/.ssh/id_rsa.pub

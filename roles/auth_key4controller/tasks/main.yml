@@ -1,4 +1,5 @@
 ---
+# コントローラに対してターゲットの公開鍵を認証
 - name: Set pubkey
   lineinfile:
     path: /home/{{ ansible_user }}/.ssh/authorized_keys
