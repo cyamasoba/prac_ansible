@@ -1,0 +1,7 @@
+---
+uname: ansible
+upass: Password-2
+
+ansible_user: root
+ansible_become: true
+ansible_become_password: Password-1

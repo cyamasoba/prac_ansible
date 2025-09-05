@@ -1,0 +1,42 @@
+---
+- hosts: create_ansibleuser
+  
+  vars:
+    user_name: ansible
+    public_key: /home/ansible/.ssh/id_rsa.pub
+    secret_key: /home/ansible/.ssh/id_rsa
+    
+  tasks:
+    - name: Create user
+      user:
+        name: "{{ uname }}"
+        password: "{{ upass | password_hash('sha512') }}"
+        group: wheel
+        shell: "/bin/bash"
+
+    - name: Create ssh key
+      openssh_keypair:
+        path: /home/{{ ansible_user }}/.ssh/id_rsa
+        owner: "{{ ansible_user }}"
+        type: rsa
+        state: present
+
+    - name: Sent pubkey
+      authorized_key:
+        user: "{{ ansible_user }}"
+        state: present
+        key: "{{ lookup('file', '/home/ansible/.ssh/id_rsa.pub')}}"
+
+    - name: Get ssh pubkey
+      fetch:
+        src: /home/{{ ansible_user }}/.ssh/id_rsa.pub
+        dest: ~/tmp/auth_key/
+        flat: yes
+
+- hosts: localhost
+  tasks:
+    - name: Set pubkey
+      lineinfile:
+        path: /home/ansible/.ssh/authorized_keys
+        line: "{{ lookup('file', '~/tmp/auth_key/id_rsa.pub') }}"
+        state: present
