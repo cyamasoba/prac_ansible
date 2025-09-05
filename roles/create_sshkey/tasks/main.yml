@@ -1,0 +1,15 @@
+---
+- name: Ensure dir ".ssh" exists
+  file:
+    path: /home/{{ uname }}/.ssh
+    state: "directory"
+    owner: "{{ uname }}"
+    group: "{{ uname }}"
+    mode: "755"
+
+- name: Create ssh key
+  openssh_keypair:
+    path: /home/{{ uname }}/.ssh/id_rsa
+    owner: "{{ uname }}"
+    type: rsa
+    state: present

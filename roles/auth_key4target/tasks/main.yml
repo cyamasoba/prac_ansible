@@ -1,0 +1,20 @@
+---
+- name: Ensure file "authorized_keys" exists
+  file:
+    path: /home/{{ uname }}/.ssh/authorized_keys
+    state: "touch"
+    owner: "{{ uname }}"
+    group: "{{ uname }}"
+    mode: "600"
+
+- name: Sent pubkey
+  authorized_key:
+    user: "{{ uname }}"
+    state: present
+    key: "{{ lookup('file', '/home/{{ uname }}/.ssh/id_rsa.pub')}}"
+
+- name: Get ssh pubkey
+  fetch:
+    src: /home/{{ uname }}/.ssh/id_rsa.pub
+    dest: ~/tmp/auth_key/
+    flat: yes
