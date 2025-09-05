@@ -1,0 +1,7 @@
+---
+# ansible実行時の設定
+ansbile_become: true
+
+#作成するユーザ情報
+uname: yamada
+upass: Password-2

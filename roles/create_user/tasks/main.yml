@@ -1,0 +1,14 @@
+---
+# wheelグループ作成
+- name: Make wheel group
+  group:
+    name: wheel
+    state: present
+
+# ユーザ作成
+- name: create local user
+  user:
+    name: "{{uname}}"
+    password: "{{upass | password_hash('sha512')}}"
+    createhome: yes
+    state: present
