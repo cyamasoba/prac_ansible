@@ -1,0 +1,6 @@
+[client-server]
+
+!includedir /etc/my.cnf.d
+
+[mysqld]
+server-id=2

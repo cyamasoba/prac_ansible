@@ -1,0 +1,71 @@
+---
+- name: Setting MySQL
+  template:
+    src: templates/template_repl_my.cnf
+    dest: /etc/my.cnf
+    
+- name: Start MySQL
+  service:
+    name: mysqld
+    state: started
+    enabled: yes
+
+- name: Sent mysqldump
+  copy:
+    src: ~/tmp/source_db.sql
+    dest: /home/{{ ansible_user }}/
+
+- name: Get replication information
+  shell: head -n 50 /home/{{ ansible_user }}/source_db.sql | grep CHANGE
+  register: result
+
+- name: Extract log info
+  set_fact:
+    repl_log_file: "{{ result.stdout.split(\"SOURCE_LOG_FILE='\")[-1].split(\"'\")[0] }}"
+    repl_log_pos: "{{ result.stdout.split(\"SOURCE_LOG_POS=\")[-1].split(\";\")[0] }}"
+
+- name: Import mysqldump
+  shell: >
+    mysql -u root < source_db.sql
+
+- name: stop replication
+  mysql_replication:
+    mode: stopreplica
+
+- name: reset replication
+  mysql_replication:
+    mode: resetreplica
+
+# これだとget_source_public_key引数がなく、初回接続ができない
+# - name: set replication
+#   mysql_replication:
+#     mode=changeprimary
+#     primary_host="{{ hostvars['source_server']['inventory_hostname'] }}"
+#     primary_port={{ mysql_info.port }}
+#     primary_user="{{ mysql_info.dbuser }}"
+#     primary_password="{{ mysql_info.dbpass }}"
+#     primary_log_file="{{ repl_log_file }}"
+#     primary_log_pos={{ repl_log_pos }}
+
+- name : set replication
+  shell: >
+    mysql -u root --execute="change replication source to
+    source_host='{{ groups['source_server'][0] }}',
+    source_port={{ mysql_info.port }},
+    source_user='{{ mysql_info.dbuser }}',
+    source_password='{{ mysql_info.dbpass }}',
+    source_log_file='{{ repl_log_file }}',
+    source_log_pos={{ repl_log_pos }},
+    get_source_public_key=1;"
+
+- name: start replication
+  mysql_replication:
+
+- name: check replication status
+  shell: >
+    mysql -u root --execute="show replica status\G"
+  register: replica_status
+
+- name: show status
+  debug:
+    var: replica_status['stdout_lines']

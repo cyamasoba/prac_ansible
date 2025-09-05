@@ -1,0 +1,19 @@
+---
+  - name: Set dnf proxy
+    lineinfile:
+      path: /etc/dnf/dnf.conf
+      line: "'proxy={{ http_proxy }}'"
+      state: present
+
+  - name: Update dnf
+    ansible.builtin.dnf:
+      name: "*"
+      state: latest
+
+  - name: Install MySQL
+    ansible.builtin.dnf:
+      name: "{{ mysql_info.package_name }}"
+
+  - name: Install pymysql
+    ansible.builtin.dnf:
+      name: "python3-PyMySQL"

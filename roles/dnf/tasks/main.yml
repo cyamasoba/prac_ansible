@@ -1,0 +1,25 @@
+---
+# プロキシを設定してdnfをアップデート
+- name: Set dnf proxy
+  lineinfile:
+    path: /etc/dnf/dnf.conf
+    line: "'proxy={{ http_proxy }}'"
+    state: present
+
+- name: Update dnf
+  ansible.builtin.dnf:
+    name: "*"
+    state: latest
+
+
+## MySQL_install
+# MySQLをインストール(パッケージはreplication_group.ymlで指定)
+- name: Install MySQL
+  ansible.builtin.dnf:
+    name: "{{ mysql_info.package_name }}"
+
+    
+# pymysqlをインストール
+- name: Install pymysql
+  ansible.builtin.dnf:
+    name: "python3-PyMySQL"

@@ -1,0 +1,5 @@
+mysql_info:
+  package_name: mysql8.4-server
+  dbuser: repl
+  dbpass: Password-1
+  port: 3306

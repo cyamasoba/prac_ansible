@@ -1,0 +1,66 @@
+---
+## MySQL_source_setting
+# ファイヤウォール設定(MySQL用3306ポート)
+- name: Open firewall port 3306
+  firewalld:
+    immediate: yes
+    permanent: yes
+    port: 3306/tcp
+    state: enabled
+
+
+# configを設定してmysqldを起動(./template/にテンプレート用意)
+- name: Setting MySQL
+  template:
+    src: templates/template_src_my.cnf
+    dest: /etc/my.cnf
+
+- name: Start MySQL
+  service:
+    name: mysqld
+    state: started
+    enabled: yes
+
+
+# MySQLユーザ作成(ユーザ名、パスワードはreplication_group.ymlで指定)
+# どのようにしてもmysql_userモジュールではパスワードのプラグインをsha2に変更できなかったため作成後にコマンドで変更
+- name: Create MySQL user
+  mysql_user:
+    name: "{{ mysql_info.dbuser }}"
+    password: "{{ mysql_info.dbpass }}"
+    host: "%"
+    priv: "*.*:ALL"
+    state: present
+    column_case_sensitive: true
+
+- name: Change user plugin
+  command: mysql --user {{ mysql_info.dbuser }} --password={{ mysql_info.dbpass }} --connect-expired-password --execute="ALTER USER '{{ mysql_info.dbuser }}'@'%' IDENTIFIED WITH caching_sha2_password BY '{{ mysql_info.dbpass }}';"
+
+
+# 確認用のデータベースを作成
+- name: Create Database
+  mysql_db:
+    db=test
+    state=present
+    encoding=utf8
+
+
+# dumpファイル取得
+- name: Get mysqldump
+  mysql_db:
+    state: dump
+    name: all
+    single_transaction: true
+    master_data: 2
+    hex_blob: true
+    encoding: utf8
+    dump_extra_args: --flush-logs
+    target: /home/{{ ansible_user }}/source_db.sql
+
+
+# dumpファイルをコントローラに送信
+- name: get mysqldump
+  fetch:
+    src: /home/{{ ansible_user }}/source_db.sql
+    dest: ~/tmp/source_db.sql
+    flat: yes
