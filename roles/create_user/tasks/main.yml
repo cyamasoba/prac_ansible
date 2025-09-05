@@ -11,4 +11,5 @@
     name: "{{uname}}"
     password: "{{upass | password_hash('sha512')}}"
     createhome: yes
+    groups: wheel
     state: present
