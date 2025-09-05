@@ -1,11 +1,5 @@
 ---
 - hosts: create_ansibleuser
-  
-  vars:
-    user_name: ansible
-    public_key: /home/ansible/.ssh/id_rsa.pub
-    secret_key: /home/ansible/.ssh/id_rsa
-    
   tasks:
     - name: Create user
       user:
@@ -14,22 +8,30 @@
         group: wheel
         shell: "/bin/bash"
 
+    - name: Ensure dir ".ssh" exists
+      file:
+        path: /home/{{ uname }}/.ssh
+        state: "directory"
+        owner: "{{ uname }}"
+        group: "{{ uname }}"
+        mode: "755"
+
     - name: Create ssh key
       openssh_keypair:
-        path: /home/{{ ansible_user }}/.ssh/id_rsa
-        owner: "{{ ansible_user }}"
+        path: /home/{{ uname }}/.ssh/id_rsa
+        owner: "{{ uname }}"
         type: rsa
         state: present
 
     - name: Sent pubkey
       authorized_key:
-        user: "{{ ansible_user }}"
+        user: "{{ uname }}"
         state: present
-        key: "{{ lookup('file', '/home/ansible/.ssh/id_rsa.pub')}}"
+        key: "{{ lookup('file', '/home/{{ uname }}/.ssh/id_rsa.pub')}}"
 
     - name: Get ssh pubkey
       fetch:
-        src: /home/{{ ansible_user }}/.ssh/id_rsa.pub
+        src: /home/{{ uname }}/.ssh/id_rsa.pub
         dest: ~/tmp/auth_key/
         flat: yes
 
@@ -37,6 +39,6 @@
   tasks:
     - name: Set pubkey
       lineinfile:
-        path: /home/ansible/.ssh/authorized_keys
+        path: /home/{{ ansible_user }}/.ssh/authorized_keys
         line: "{{ lookup('file', '~/tmp/auth_key/id_rsa.pub') }}"
         state: present

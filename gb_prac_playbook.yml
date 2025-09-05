@@ -1,5 +1,0 @@
----
-- hosts: create_user
-  become: true
-  roles:
-    - create_user
