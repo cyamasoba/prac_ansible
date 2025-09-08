@@ -1,12 +1,21 @@
 ---
 - hosts: install_packages_group
+  vars:
+    install_packages_name:
+      "{{ default_install_packages_name }}"
   roles:
     - install_packages
 
-- hosts: httpd_group
+- hosts: A_group
+  vars:
+    install_packages_name:
+      "{{ A_install_packages_name }}"
   roles:
     - install_packages
 
-- hosts: gcc_group
+- hosts: B_group
+  vars:
+    install_packages_name:
+      "{{ B_install_packages_name }}"
   roles:
     - install_packages
