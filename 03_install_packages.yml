@@ -1,0 +1,12 @@
+---
+- hosts: install_packages_group
+  roles:
+    - install_packages
+
+- hosts: httpd_group
+  roles:
+    - install_packages
+
+- hosts: gcc_group
+  roles:
+    - install_packages
