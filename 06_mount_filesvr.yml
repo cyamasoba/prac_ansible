@@ -1,0 +1,4 @@
+---
+- hosts: filemount_group
+  roles:
+    - mount

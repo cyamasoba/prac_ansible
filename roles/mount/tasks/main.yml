@@ -1,0 +1,16 @@
+---
+- name: Ensure directory exists
+  file:
+    path: /mnt/files
+    state: "directory"
+    owner: "{{ uname }}"
+    group: "{{ uname }}"
+    mode: "755"
+
+- name: mount file
+  become: yes
+  mount:
+    src: /sda/sda3/rhel_vbox-root
+    path: /mnt/files
+    state: mounted
+    fstype: xfs
