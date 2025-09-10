@@ -8,8 +8,10 @@
 # ユーザ作成
 - name: create local user
   user:
-    name: "{{uname}}"
-    password: "{{upass | password_hash('sha512')}}"
+    name: "{{ item.name }}"
+    password: "{{ item.pass | password_hash('sha512') }}"
     createhome: yes
     groups: wheel
     state: present
+  with_items:
+    "{{user_info}}"

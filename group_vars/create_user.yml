@@ -3,5 +3,6 @@
 ansbile_become: true
 
 #作成するユーザ情報
-uname: yamada
-upass: Password-2
+user_info:
+  - {name: yamada, pass: Password-2}
+  - {name: sato, pass: Password-3}
