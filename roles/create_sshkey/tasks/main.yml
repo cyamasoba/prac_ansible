@@ -1,0 +1,17 @@
+---
+# .sshディレクトリが存在しているか確認
+- name: Ensure dir ".ssh" exists
+  file:
+    path: /home/{{ uname }}/.ssh
+    state: "directory"
+    owner: "{{ uname }}"
+    group: "{{ uname }}"
+    mode: "755"
+
+# sshキー生成
+- name: Create ssh key
+  openssh_keypair:
+    path: /home/{{ uname }}/.ssh/id_rsa
+    owner: "{{ uname }}"
+    type: rsa
+    state: present

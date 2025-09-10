@@ -1,0 +1,29 @@
+---
+- name: install chrony
+  dnf:
+    name: chrony
+    state: present
+
+- name: setup chrony
+  template:
+    src:
+    dest:
+    backup: yes
+    owner:
+    group:
+    mode:
+  notify:
+
+- name: setting firewall
+  firewalld:
+    zone:
+    service:
+    permanent:
+    state:
+    immediate:
+
+- name: start chrony
+  service:
+    name: chronyd
+    state: started
+    enable: yes

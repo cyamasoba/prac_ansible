@@ -1,0 +1,6 @@
+---
+# パッケージのインストール
+- name: install_packages
+  dnf:
+    name: "{{ install_packages_name }}"
+    state: latest
