@@ -3,7 +3,7 @@
 # configを設定してmysqldを起動(./template/にテンプレート用意)
 - name: Setting MySQL
   template:
-    src: templates/template_repl_my.cnf
+    src: templates/mysql_replication/template_repl_my.cnf
     dest: /etc/my.cnf
     
 - name: Start MySQL

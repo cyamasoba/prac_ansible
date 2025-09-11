@@ -1,0 +1,15 @@
+---
+- hosts: replication_group
+  become: true
+  roles:
+    - dnf
+
+- hosts: source_server
+  become: true
+  roles:
+    - MySQL_source_setting
+
+- hosts: replica_server
+  become: true
+  roles:
+    - MySQL_replica_setting
