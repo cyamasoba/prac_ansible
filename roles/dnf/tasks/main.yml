@@ -12,14 +12,14 @@
     state: latest
 
 
-## MySQL_install
-# MySQLをインストール(パッケージはreplication_group.ymlで指定)
-- name: Install MySQL
-  ansible.builtin.dnf:
-    name: "{{ mysql_info.package_name }}"
+# ## MySQL_install
+# # MySQLをインストール(パッケージはreplication_group.ymlで指定)
+# - name: Install MySQL
+#   ansible.builtin.dnf:
+#     name: "{{ mysql_info.package_name }}"
 
     
-# pymysqlをインストール
-- name: Install pymysql
-  ansible.builtin.dnf:
-    name: "python3-PyMySQL"
+# # pymysqlをインストール
+# - name: Install pymysql
+#   ansible.builtin.dnf:
+#     name: "python3-PyMySQL"

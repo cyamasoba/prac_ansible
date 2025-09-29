@@ -2,5 +2,5 @@
 # パッケージのインストール
 - name: install_packages
   dnf:
-    name: "{{ install_packages_name }}"
-    state: latest
+    name: "{{ (common_pkg | default([])) + (role_pkg | default([])) + (host_pkg | default([])) }}"
+    state: present
