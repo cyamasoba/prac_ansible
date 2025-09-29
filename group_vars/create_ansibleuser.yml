@@ -1,6 +1,6 @@
 ---
-uname: ansible
-upass: Password-2
+user_info:
+  - {name: ansible, pass: Password-2}
 
 ansible_user: root
 ansible_become: true

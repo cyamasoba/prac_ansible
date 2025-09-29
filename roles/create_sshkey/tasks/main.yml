@@ -2,16 +2,20 @@
 # .sshディレクトリが存在しているか確認
 - name: Ensure dir ".ssh" exists
   file:
-    path: /home/{{ uname }}/.ssh
+    path: /home/{{ item.name }}/.ssh
     state: "directory"
-    owner: "{{ uname }}"
-    group: "{{ uname }}"
+    owner: "{{ item.name }}"
+    group: "{{ item.name }}"
     mode: "755"
+  with_items:
+    "{{user_info}}"
 
 # sshキー生成
 - name: Create ssh key
   openssh_keypair:
-    path: /home/{{ uname }}/.ssh/id_rsa
-    owner: "{{ uname }}"
+    path: /home/{{ item.name }}/.ssh/id_rsa
+    owner: "{{ item.name }}"
     type: rsa
     state: present
+  with_items:
+    "{{user_info}}"
