@@ -3,7 +3,7 @@
 - name: Set dnf proxy
   lineinfile:
     path: /etc/dnf/dnf.conf
-    line: "'proxy={{ http_proxy }}'"
+    line: "proxy=\"{{ http_proxy }}\""
     state: present
 
 - name: Update dnf

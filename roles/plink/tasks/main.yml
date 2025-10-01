@@ -1,0 +1,15 @@
+---
+# authorized_keysディレクトリが存在するか確認
+- name: Ensure file "plink" exists
+  file:
+    path: /home/{{ansi_user_info.name}}/package/plink
+    state: "directory"
+    owner: "{{ ansi_user_info.name }}"
+    group: "{{ ansi_user_info.name }}"
+    mode: "755"
+
+#plinkのインストール
+- name: install plink
+  unarchive:
+    src: package/plink_linux_x86_64_20250819.zip
+    dest: /home/{{ansi_user_info.name}}/package/plink/
