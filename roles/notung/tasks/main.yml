@@ -1,0 +1,25 @@
+---
+# notungディレクトリが存在するか確認
+- name: Ensure file "notung" exists
+  file:
+    path: /home/{{item.name}}/package/notung
+    state: "directory"
+    owner: "{{ item.name }}"
+    group: "{{ item.name }}"
+    mode: "755"
+  with_items:
+    "{{ ansi_user_info }}"
+
+#解凍ツールのダウンロード
+- name: install unzip
+  dnf:
+    name: unzip
+    state: present
+
+#plinkのインストール
+- name: install notung
+  unarchive:
+    src: package/Notung-2.9.1.5.zip
+    dest: /home/{{item.name}}/package/notung/
+  with_items:
+    "{{ ansi_user_info }}"
