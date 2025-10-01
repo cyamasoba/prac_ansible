@@ -25,12 +25,12 @@
 - hosts: pubweb_server
   become: true
   roles:
-    - pip3
+    # - pip3
     # - r
     # - plink
-    - fastlmm
+    # - fastlmm
     # - blast_plus
     # - notung
     # - clustalw
-    # - njplot
+    - njplot
     # - phyml
