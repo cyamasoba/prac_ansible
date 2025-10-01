@@ -7,5 +7,5 @@
     
 - name: setup proxy for pip
   copy:
-    src: ./templates/template_pip.conf
+    src: ./templates/pip/template_pip.conf
     dest: /etc/pip.conf
