@@ -1,0 +1,28 @@
+---
+# blastpディレクトリが存在するか確認
+- name: Ensure file "blastp" exists
+  file:
+    path: /home/{{item.name}}/package/blastp
+    state: "directory"
+    owner: "{{ item.name }}"
+    group: "{{ item.name }}"
+    mode: "755"
+  with_items:
+    "{{ ansi_user_info }}"
+
+# rpmファイルをcontrolからコピー
+- name: copy rpm file
+  copy:
+    src: ./package/ncbi-blast-2.17.0+-2.x86_64.rpm
+    dest: /home/{{item.name}}/package/blastp
+  with_items:
+    "{{ ansi_user_info }}"
+
+#blastpのrpmインストール
+- name: install blastp
+  dnf:
+    name: /home/{{item.name}}/package/blastp/ncbi-blast-2.17.0+-2.x86_64.rpm
+    state: installed
+    disable_gpg_check: true
+  with_items:
+    "{{ ansi_user_info }}"
