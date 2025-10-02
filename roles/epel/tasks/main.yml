@@ -1,0 +1,15 @@
+---
+# codeready-builderを有効化
+- name: enable codeready-builder repo
+  rhsm_repository:
+    name: codeready-builder-for-rhel-10-{{ default_arch }}-rpms
+    state: enabled
+
+# epel10をインストール
+- name: Install epel10
+  dnf:
+    name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-10.noarch.rpm
+    state: present
+    disable_gpg_check: true
+  environment:
+    https_proxy: "{{ http_proxy }}"

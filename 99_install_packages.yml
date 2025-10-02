@@ -25,6 +25,7 @@
 - hosts: pubweb_server
   become: true
   roles:
+    - epel
     - pip3
     - r
     - plink
