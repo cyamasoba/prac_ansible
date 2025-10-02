@@ -1,0 +1,76 @@
+---
+# 7stepに分けてRをインストールする
+# libtre.so.5をインストール
+- name: Install libtre.so.5 (1/7)
+  dnf:
+    name:
+      - https://dl.fedoraproject.org/pub/epel/10/Everything/x86_64/Packages/t/tre-common-0.8.0-47.20140228gitc2f5d13.el10_1.noarch.rpm # libtre-common
+      - https://dl.fedoraproject.org/pub/epel/10/Everything/x86_64/Packages/t/tre-0.8.0-47.20140228gitc2f5d13.el10_1.x86_64.rpm # libtre.so.5
+    state: present
+    disable_gpg_check: true
+  environment:
+    https_proxy: "{{ http_proxy }}"
+
+# R-coreをインストール
+- name: Install R-core (2/7)
+  dnf:
+    name:
+      - https://dl.fedoraproject.org/pub/epel/10/Everything/x86_64/Packages/l/libRmath-4.5.1-1.el10_1.x86_64.rpm # libRmath
+      - https://dl.fedoraproject.org/pub/epel/10/Everything/x86_64/Packages/r/R-core-4.5.1-1.el10_1.x86_64.rpm # R-core
+    state: present
+    disable_gpg_check: true
+  environment:
+    https_proxy: "{{ http_proxy }}"
+
+# R-core-develをインストール
+- name: Install R-core-devel (3/7)
+  dnf:
+    name:
+      - https://dl.fedoraproject.org/pub/epel/10/Everything/x86_64/Packages/l/libRmath-devel-4.5.1-1.el10_1.x86_64.rpm # libRmath-devel
+      - https://dl.fedoraproject.org/pub/epel/10/Everything/x86_64/Packages/t/tre-devel-0.8.0-47.20140228gitc2f5d13.el10_1.x86_64.rpm # tre-devel
+      - https://dl.fedoraproject.org/pub/epel/10/Everything/x86_64/Packages/r/R-core-devel-4.5.1-1.el10_1.x86_64.rpm # R-core-devel
+    state: present
+    disable_gpg_check: true
+  environment:
+    https_proxy: "{{ http_proxy }}"
+    
+# R-java-develをインストール
+- name: Install R-java-devel (4/7)
+  dnf:
+    name:
+      - https://dl.fedoraproject.org/pub/epel/10/Everything/x86_64/Packages/r/R-java-4.5.1-1.el10_1.x86_64.rpm # R-java
+      - https://dl.fedoraproject.org/pub/epel/10/Everything/x86_64/Packages/r/R-java-devel-4.5.1-1.el10_1.x86_64.rpm # R-java-devel
+    state: present
+    disable_gpg_check: true
+  environment:
+    https_proxy: "{{ http_proxy }}"
+    
+# R-rpm-macrosをインストール
+- name: Install R-rpm-macros (5/7)
+  dnf:
+    name:
+      - https://dl.fedoraproject.org/pub/epel/10/Everything/x86_64/Packages/r/R-rpm-macros-1.2.1-12.el10_1.noarch.rpm # R-rpm-macros
+    state: present
+    disable_gpg_check: true
+  environment:
+    https_proxy: "{{ http_proxy }}"
+    
+# R-develをインストール
+- name: Install R-devel (6/7)
+  dnf:
+    name:
+      - https://dl.fedoraproject.org/pub/epel/10/Everything/x86_64/Packages/r/R-devel-4.5.1-1.el10_1.x86_64.rpm # R-devel
+    state: present
+    disable_gpg_check: true
+  environment:
+    https_proxy: "{{ http_proxy }}"
+    
+# Rをインストール
+- name: Install R (7/7)
+  dnf:
+    name:
+      - https://dl.fedoraproject.org/pub/epel/10/Everything/x86_64/Packages/r/R-4.5.1-1.el10_1.x86_64.rpm # R
+    state: present
+    disable_gpg_check: true
+  environment:
+    https_proxy: "{{ http_proxy }}"
