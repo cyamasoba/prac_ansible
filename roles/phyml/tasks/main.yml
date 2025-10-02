@@ -1,0 +1,59 @@
+---
+# phymlディレクトリが存在するか確認
+- name: Ensure directory "phyml" exists
+  file:
+    path: /home/{{ item.name }}/package/
+    state: "directory"
+    owner: "{{ item.name }}"
+    group: "{{ item.name }}"
+    mode: "755"
+  with_items:
+    "{{ ansi_user_info }}"
+
+# gitのプロキシ設定
+- name: set git proxy
+  git_config:
+    name: http.proxy
+    value: "{{ http_proxy }}"
+    scope: global
+
+# gitからphymlをクローン
+- name: clone phyml from git
+  git:
+    repo: https://github.com/stephaneguindon/phyml.git
+    dest: /home/{{ item.name }}/package/phyml
+  with_items:
+    "{{ ansi_user_info }}"
+
+# 必要なモジュールをインストール
+- name: install dh-autoreconf
+  dnf:
+    name: dh-autoreconf
+    state: present
+
+# shellで実行
+- name: sh autogen.sh
+  shell: sh ./autogen.sh
+  args:
+    chdir: /home/{{ item.name }}/package/phyml
+  with_items:
+    "{{ ansi_user_info }}"
+
+#makeのダウンロード
+- name: install make
+  dnf:
+    name: make
+    state: present
+
+- name: clustalw make
+  community.general.make:
+    chdir: /home/{{ item.name }}/package/phyml
+  with_items:
+    "{{ ansi_user_info }}"
+
+- name: clustalw install
+  community.general.make:
+    target: install
+    chdir: /home/{{ item.name }}/package/phyml
+  with_items:
+    "{{ ansi_user_info }}"
