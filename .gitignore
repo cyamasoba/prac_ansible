@@ -1,3 +1,4 @@
 99_tmp_playbook.yml
 package
 package/clustalw-2.1.tar.gz
+package/ncbi-blast-2.17.0+-2.x86_64.rpm
