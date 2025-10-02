@@ -1,0 +1,60 @@
+---
+# clustalwディレクトリが存在するか確認
+- name: Ensure file "clustalw" exists
+  file:
+    path: /home/{{item.name}}/package/clustalw
+    state: "directory"
+    owner: "{{ item.name }}"
+    group: "{{ item.name }}"
+    mode: "755"
+  with_items:
+    "{{ ansi_user_info }}"
+
+#解凍ツールのダウンロード
+- name: install tar
+  dnf:
+    name: tar
+    state: present
+
+#clustalwのインストール
+- name: unzip clustalw
+  unarchive:
+    src: package/clustalw-2.1.tar.gz
+    dest: /home/{{item.name}}/package/clustalw/
+  with_items:
+    "{{ ansi_user_info }}"
+
+#コンパイラのダウンロード
+- name: install compiler
+  dnf:
+    name:
+      - gcc
+      - gcc-c++
+    state: present
+
+- name: configure clustalw
+  command: './configure'
+  args:
+    chdir:
+      /home/{{item.name}}/package/clustalw/clustalw-2.1
+  with_items:
+    "{{ ansi_user_info }}"
+
+#makeのダウンロード
+- name: install make
+  dnf:
+    name: make
+    state: present
+
+- name: clustalw make
+  community.general.make:
+    chdir: /home/{{item.name}}/package/clustalw/clustalw-2.1
+  with_items:
+    "{{ ansi_user_info }}"
+
+- name: clustalw install
+  community.general.make:
+    target: install
+    chdir: /home/{{item.name}}/package/clustalw/clustalw-2.1
+  with_items:
+    "{{ ansi_user_info }}"
