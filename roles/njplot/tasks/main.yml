@@ -1,0 +1,38 @@
+---
+# njplotディレクトリが存在するか確認
+- name: Ensure file "njplot" exists
+  file:
+    path: /home/{{item.name}}/package/njplot
+    state: "directory"
+    owner: "{{ item.name }}"
+    group: "{{ item.name }}"
+    mode: "755"
+  with_items:
+    "{{ ansi_user_info }}"
+
+#解凍ツールのダウンロード
+- name: install tar
+  dnf:
+    name: tar
+    state: present
+
+#njplotのインストール
+- name: unzip njplot
+  unarchive:
+    src: package/njplot-2.4.tar.gz
+    dest: /home/{{item.name}}/package/njplot/
+  with_items:
+    "{{ ansi_user_info }}"
+
+#makeのダウンロード
+- name: install make
+  dnf:
+    name: make
+    state: present
+
+# 以下今後編集
+# - name: njplot make
+#   community.general.make:
+#     chdir: /home/{{item.name}}/package/njplot/njplot-2.4
+#   with_items:
+#     "{{ ansi_user_info }}"
