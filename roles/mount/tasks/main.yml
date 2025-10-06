@@ -3,8 +3,8 @@
   file:
     path: /mnt/files
     state: "directory"
-    owner: "{{ uname }}"
-    group: "{{ uname }}"
+    owner: "{{ ansible_info.name }}"
+    group: "{{ ansible_info.name }}"
     mode: "755"
 
 - name: mount file

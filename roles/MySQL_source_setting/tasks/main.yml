@@ -55,12 +55,12 @@
     hex_blob: true
     encoding: utf8
     dump_extra_args: --flush-logs
-    target: /home/{{ ansible_user }}/source_db.sql
+    target: /home/{{ ansible_info.name }}/source_db.sql
 
 
 # dumpファイルをコントローラに送信
 - name: get mysqldump
   fetch:
-    src: /home/{{ ansible_user }}/source_db.sql
+    src: /home/{{ ansible_info.name }}/source_db.sql
     dest: ~/tmp/source_db.sql
     flat: yes

@@ -2,13 +2,11 @@
 # clustalwディレクトリが存在するか確認
 - name: Ensure file "clustalw" exists
   file:
-    path: /home/{{item.name}}/package/clustalw
+    path: /home/{{ansible_info.name}}/package/clustalw
     state: "directory"
-    owner: "{{ item.name }}"
-    group: "{{ item.name }}"
+    owner: "{{ ansible_info.name }}"
+    group: "{{ ansible_info.name }}"
     mode: "755"
-  with_items:
-    "{{ ansi_user_info }}"
 
 #解凍ツールのダウンロード
 - name: install tar
@@ -20,9 +18,7 @@
 - name: unzip clustalw
   unarchive:
     src: package/clustalw-2.1.tar.gz
-    dest: /home/{{item.name}}/package/clustalw/
-  with_items:
-    "{{ ansi_user_info }}"
+    dest: /home/{{ansible_info.name}}/package/clustalw/
 
 #コンパイラのダウンロード
 - name: install compiler
@@ -36,9 +32,7 @@
   command: './configure'
   args:
     chdir:
-      /home/{{item.name}}/package/clustalw/clustalw-2.1
-  with_items:
-    "{{ ansi_user_info }}"
+      /home/{{ansible_info.name}}/package/clustalw/clustalw-2.1
 
 #makeのダウンロード
 - name: install make
@@ -48,13 +42,9 @@
 
 - name: clustalw make
   community.general.make:
-    chdir: /home/{{item.name}}/package/clustalw/clustalw-2.1
-  with_items:
-    "{{ ansi_user_info }}"
+    chdir: /home/{{ansible_info.name}}/package/clustalw/clustalw-2.1
 
 - name: clustalw install
   community.general.make:
     target: install
-    chdir: /home/{{item.name}}/package/clustalw/clustalw-2.1
-  with_items:
-    "{{ ansi_user_info }}"
+    chdir: /home/{{ansible_info.name}}/package/clustalw/clustalw-2.1

@@ -2,13 +2,11 @@
 # notungディレクトリが存在するか確認
 - name: Ensure file "notung" exists
   file:
-    path: /home/{{item.name}}/package/notung
+    path: /home/{{ansible_info.name}}/package/notung
     state: "directory"
-    owner: "{{ item.name }}"
-    group: "{{ item.name }}"
+    owner: "{{ ansible_info.name }}"
+    group: "{{ ansible_info.name }}"
     mode: "755"
-  with_items:
-    "{{ ansi_user_info }}"
 
 #解凍ツールのダウンロード
 - name: install unzip
@@ -20,6 +18,4 @@
 - name: install notung
   unarchive:
     src: package/Notung-2.9.1.5.zip
-    dest: /home/{{item.name}}/package/notung/
-  with_items:
-    "{{ ansi_user_info }}"
+    dest: /home/{{ansible_info.name}}/package/notung/

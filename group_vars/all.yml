@@ -2,8 +2,9 @@
 user_info:
   - {name: ansible, pass: Password-2}
 
-ansi_user_info:
-  - {name: ansible, pass: Password-2}
+ansible_info:
+  name: ansible
+  pass: Password-2
 
 ansible_become_password: Password-2
 
