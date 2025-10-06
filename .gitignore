@@ -1,2 +1,3 @@
 99_tmp_playbook.yml
 package
+inventories/tmp.ini
