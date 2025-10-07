@@ -10,8 +10,12 @@
   user:
     name: "{{ item.name }}"
     password: "{{ item.pass | password_hash('sha512') }}"
-    createhome: yes
-    groups: wheel
-    state: present
+    uid: "{{ item.uid }}"
+    group: "{{ item.group }}"
+    groups: "{{ item.groups }}"
+    comment: "{{ item.comment }}"
+    home: "{{ item.home }}"
+    createhome: "{{ item.createhome }}"
+    state: "{{ item.state }}"
   with_items:
     "{{user_info}}"

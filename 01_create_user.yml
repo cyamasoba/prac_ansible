@@ -1,5 +1,7 @@
 ---
 - hosts: create_user
   become: true
+  vars:
+    "{{ group_user_info }} + {{ host_user_info }}" # groupはgroup_vars/create_userで指定、hostはhost_vars/*で指定
   roles:
     - create_user
