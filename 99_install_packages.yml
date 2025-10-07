@@ -1,15 +1,15 @@
 ---
-- hosts: all
-  vars:
-    ansible_user: root
-  roles:
-    - create_user
-    - create_sshkey
-    - auth_key4target
+# - hosts: all
+#   vars:
+#     ansible_user: root
+#   roles:
+#     - create_user
+#     - create_sshkey
+#     - auth_key4target
 
-- hosts: localhost
-  roles:
-    - auth_key4controller
+# - hosts: localhost
+#   roles:
+#     - auth_key4controller
 
 # パッケージのインストール
 - hosts: all
@@ -23,16 +23,7 @@
     - install_packages
 
 # dnfインストール以外のパッケージインストール
-- hosts: pubweb_server
+- hosts: www
   become: true
   roles:
-    - epel
-    - pip3
-    - r
-    - plink
-    - fastlmm
-    - blast_plus
-    - notung
-    - clustalw
-    - njplot
-    - phyml
+    - install_other_packages

@@ -1,0 +1,11 @@
+---
+#pip3のインストール
+- name: install latest pip3
+  dnf:
+    name: python3-pip
+    state: latest
+    
+- name: setup proxy for pip
+  copy:
+    src: ./templates/pip/template_pip.conf
+    dest: /etc/pip.conf

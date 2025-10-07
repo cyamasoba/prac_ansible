@@ -1,0 +1,3 @@
+---
+default_arch: x86_64
+http_proxy: http://172.20.1.246:12080

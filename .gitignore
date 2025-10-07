@@ -1,3 +1,5 @@
 99_tmp_playbook.yml
 package
 inventories/tmp.ini
+files
+./roles/tmp_debug
