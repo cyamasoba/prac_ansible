@@ -1,0 +1,4 @@
+---
+- name: debug
+  debug:
+    var: user_info

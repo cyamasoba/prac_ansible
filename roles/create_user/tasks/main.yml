@@ -2,8 +2,11 @@
 # wheelグループ作成
 - name: Make wheel group
   group:
-    name: wheel
-    state: present
+    name: "{{ item.name }}"
+    gid: "{{ item.gid }}"
+    state: "{{ item.state }}"
+  with_items:
+    "{{ user_groups }}"
 
 # ユーザ作成
 - name: create local user
@@ -18,4 +21,4 @@
     createhome: "{{ item.createhome }}"
     state: "{{ item.state }}"
   with_items:
-    "{{user_info}}"
+    "{{ user_info }}"

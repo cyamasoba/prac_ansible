@@ -1,0 +1,20 @@
+---
+user_pass:
+  ansible: Password-2
+  mesw: Password-3
+
+ansible_info:
+  name: ansible
+  pass: "{{ user_pass.ansible }}"
+
+ansible_become_password: "{{ user_pass.ansible }}"
+
+user_groups:
+  - {name: 'mesw', gid: 500, state: 'present'}
+
+group_user_info:
+  - {name: 'mesw', pass: "{{ user_pass.mesw }}", uid: 500, group: "{{ user_groups[0].name }}", groups: 'wheel', comment: 'management acount', home: '/home/mesw', createhome: 'yes', state: 'present' }
+
+sudoers: |
+  ansible All=(ALL) NOPASSWD: ALL
+  Defaults: 

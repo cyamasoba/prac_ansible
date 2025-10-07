@@ -1,0 +1,30 @@
+---
+- include_tasks: epel.yml
+  tags: epel_enable
+
+- include_tasks: pip3.yml
+  tags: pip3_install
+
+- include_tasks: r.yml
+  tags: r_install
+
+- include_tasks: plink.yml
+  tags: plink_install
+
+- include_tasks: fastlmm.yml
+  tags: fastlmm_install
+
+- include_tasks: blast_plus.yml
+  tags: blast_plus_install
+
+- include_tasks: notung.yml
+  tags: notung_install
+
+- include_tasks: clustalw.yml
+  tags: clustalw_install
+
+- include_tasks: njplot.yml
+  tags: njplot.yml
+
+- include_tasks: phyml.yml
+  tags: phyml_install
