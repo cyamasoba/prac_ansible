@@ -1,0 +1,6 @@
+---
+#pipを使用してインストール
+- name: install fastlmm
+  pip:
+    name: fastlmm
+    state: present

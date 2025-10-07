@@ -1,2 +1,13 @@
 ---
+user_info:
+  - {name: ansible, pass: Password-2}
+
+ansible_info:
+  name: ansible
+  pass: Password-2
+
+ansible_become_password: Password-2
+
 http_proxy: http://172.20.1.246:12080
+
+default_arch: x86_64

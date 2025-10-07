@@ -1,3 +1,6 @@
 ---
 ansible_user: ansible
 ansible_become_password: Password-2
+
+host_user_info:
+  - {name: 'yama', password: 'Password-3', uid: 500, group: 'yama', groups: 'wheel', comment: 'test', home: '/home/yama', createhome: 'yes', state: 'present' }

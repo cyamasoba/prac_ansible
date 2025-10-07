@@ -1,0 +1,23 @@
+---
+# codeready-builderを有効化
+- name: enable codeready-builder repo
+  rhsm_repository:
+    name: codeready-builder-for-rhel-10-{{ default_arch }}-rpms
+    state: enabled
+
+# gpgキーを取得
+- name: import GPG key
+  rpm_key:
+    key: https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-10
+    state: present
+  environment:
+    https_proxy: "{{ http_proxy }}"
+
+# epel10をインストール
+- name: Install epel10
+  dnf:
+    name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-10.noarch.rpm
+    state: present
+    # disable_gpg_check: true
+  environment:
+    https_proxy: "{{ http_proxy }}"
