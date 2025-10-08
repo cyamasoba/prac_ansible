@@ -18,6 +18,8 @@
     - dnf
 
 - hosts: all
+  vars:
+    install_pkg: "{{ (common_pkg | default([])) + (group_pkg | default([])) + (role_pkg | default([])) + (host_pkg | default([])) }}"
   become: true
   roles:
     - install_packages
