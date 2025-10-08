@@ -20,6 +20,7 @@
   git:
     repo: https://github.com/stephaneguindon/phyml.git
     dest: /home/{{ ansible_user_info.name }}/package/phyml
+    force: yes
 
 # 必要なモジュールをインストール
 - name: install dh-autoreconf
