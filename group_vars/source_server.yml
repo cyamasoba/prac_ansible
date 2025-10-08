@@ -1,4 +1,0 @@
----
-ansible_user: src_user
-ansbile_become: true
-ansible_become_password: Password-1

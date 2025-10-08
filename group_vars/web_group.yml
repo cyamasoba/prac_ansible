@@ -1,5 +1,5 @@
 ---
-role_pkg:
+group_pkg:
   - php-8.3.15-1.el10
   - httpd-2.4.63-1.el10_0.2
   - git-2.47.3-1.el10_0

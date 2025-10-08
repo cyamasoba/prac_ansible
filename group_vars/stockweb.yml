@@ -1,5 +1,4 @@
 ---
-host_pkg:
+role_pkg:
   - tomcat-10.1.36-1.el10_0.2
-  - java-21-openjdk-21.0.8.0.9-1.el10
   - perl-5.40.2-512.2.el10_0
