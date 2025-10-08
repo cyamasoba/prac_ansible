@@ -3,17 +3,29 @@ user_pass:
   ansible: Password-2
   mesw: Password-3
 
-ansible_info:
+ansible_user_group:
+  name: 'ansible'
+  gid: 500
+  state: 'present'
+
+ansible_user_info:
   name: ansible
   pass: "{{ user_pass.ansible }}"
+  uid: 500
+  group: "{{ ansible_user_group.name }}"
+  groups: 'wheel'
+  comment: 'Executing ansible user'
+  home: '/home/ansible'
+  createhome: 'yes'
+  state: 'present'
 
 ansible_become_password: "{{ user_pass.ansible }}"
 
 user_groups:
-  - {name: 'mesw', gid: 500, state: 'present'}
+  - {name: 'mesw', gid: 501, state: 'present'}
 
 group_user_info:
-  - {name: 'mesw', pass: "{{ user_pass.mesw }}", uid: 500, group: "{{ user_groups[0].name }}", groups: 'wheel', comment: 'management acount', home: '/home/mesw', createhome: 'yes', state: 'present' }
+  - {name: 'mesw', pass: "{{ user_pass.mesw }}", uid: 501, group: "{{ user_groups[0].name }}", groups: 'wheel', comment: 'management acount', home: '/home/mesw', createhome: 'yes', state: 'present' }
 
 sudoers: |
   ansible All=(ALL) NOPASSWD: ALL

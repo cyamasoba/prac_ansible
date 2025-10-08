@@ -2,10 +2,10 @@
 # phymlディレクトリが存在するか確認
 - name: Ensure directory "phyml" exists
   file:
-    path: /home/{{ ansible_info.name }}/package/
+    path: /home/{{ ansible_user_info.name }}/package/
     state: "directory"
-    owner: "{{ ansible_info.name }}"
-    group: "{{ ansible_info.name }}"
+    owner: "{{ ansible_user_info.name }}"
+    group: "{{ ansible_user_info.name }}"
     mode: "755"
 
 # gitのプロキシ設定
@@ -19,7 +19,7 @@
 - name: clone phyml from git
   git:
     repo: https://github.com/stephaneguindon/phyml.git
-    dest: /home/{{ ansible_info.name }}/package/phyml
+    dest: /home/{{ ansible_user_info.name }}/package/phyml
 
 # 必要なモジュールをインストール
 - name: install dh-autoreconf
@@ -31,7 +31,7 @@
 - name: sh autogen.sh
   shell: sh ./autogen.sh
   args:
-    chdir: /home/{{ ansible_info.name }}/package/phyml
+    chdir: /home/{{ ansible_user_info.name }}/package/phyml
 
 #makeのダウンロード
 - name: install make
@@ -41,9 +41,9 @@
 
 - name: phyml make
   community.general.make:
-    chdir: /home/{{ ansible_info.name }}/package/phyml
+    chdir: /home/{{ ansible_user_info.name }}/package/phyml
 
 - name: phyml install
   community.general.make:
     target: install
-    chdir: /home/{{ ansible_info.name }}/package/phyml
+    chdir: /home/{{ ansible_user_info.name }}/package/phyml

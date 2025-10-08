@@ -17,12 +17,12 @@
 - name: Sent mysqldump
   copy:
     src: ~/tmp/source_db.sql
-    dest: /home/{{ ansible_info.name }}/
+    dest: /home/{{ ansible_user_info.name }}/
 
 
 # dumpファイルからレプリケーションに必要な情報を抽出
 - name: Get replication information
-  shell: head -n 50 /home/{{ ansible_info.name }}/source_db.sql | grep CHANGE
+  shell: head -n 50 /home/{{ ansible_user_info.name }}/source_db.sql | grep CHANGE
   register: result
 
 - name: Extract log info
