@@ -1,7 +1,11 @@
 ---
-- hosts: create_ansibleuser
+- hosts: all
   vars:
     ansible_user: root
+    user_groups:
+      - "{{ ansible_user_group }}"
+    user_info: 
+      - "{{ ansible_user_info }}"
   roles:
     - create_user
     - create_sshkey

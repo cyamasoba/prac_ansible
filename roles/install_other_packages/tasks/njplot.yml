@@ -2,10 +2,10 @@
 # njplotディレクトリが存在するか確認
 - name: Ensure file "njplot" exists
   file:
-    path: /home/{{ansible_info.name}}/package/njplot
+    path: /home/{{ansible_user_info.name}}/package/njplot
     state: "directory"
-    owner: "{{ ansible_info.name }}"
-    group: "{{ ansible_info.name }}"
+    owner: "{{ ansible_user_info.name }}"
+    group: "{{ ansible_user_info.name }}"
     mode: "755"
 
 #解凍ツールのダウンロード
@@ -18,7 +18,7 @@
 - name: unzip njplot
   unarchive:
     src: package/njplot-2.4.tar.gz
-    dest: /home/{{ansible_info.name}}/package/njplot/
+    dest: /home/{{ansible_user_info.name}}/package/njplot/
 
 #makeのダウンロード
 - name: install make
@@ -29,4 +29,4 @@
 # 以下今後編集
 # - name: njplot make
 #   community.general.make:
-#     chdir: /home/{{ansible_info.name}}/package/njplot/njplot-2.4
+#     chdir: /home/{{ansible_user_info.name}}/package/njplot/njplot-2.4

@@ -2,16 +2,16 @@
 # .sshディレクトリが存在しているか確認
 - name: Ensure dir ".ssh" exists
   file:
-    path: /home/{{ ansible_info.name }}/.ssh
+    path: /home/{{ ansible_user_info.name }}/.ssh
     state: "directory"
-    owner: "{{ ansible_info.name }}"
-    group: "{{ ansible_info.name }}"
+    owner: "{{ ansible_user_info.name }}"
+    group: "{{ ansible_user_info.name }}"
     mode: "755"
 
 # sshキー生成
 - name: Create ssh key
   openssh_keypair:
-    path: /home/{{ ansible_info.name }}/.ssh/id_rsa
-    owner: "{{ ansible_info.name }}"
+    path: /home/{{ ansible_user_info.name }}/.ssh/id_rsa
+    owner: "{{ ansible_user_info.name }}"
     type: rsa
     state: present

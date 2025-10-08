@@ -1,21 +1,27 @@
 ---
-- hosts: install_packages_group
+# パッケージのインストール
+- hosts: all
+  become: true
+  roles:
+    - dnf
+
+- hosts: all
   vars:
-    install_packages_name:
-      "{{ default_install_packages_name }}"
+    install_pkg: "{{ (common_pkg | default([])) + (group_pkg | default([])) + (role_pkg | default([])) + (host_pkg | default([])) }}"
+  become: true
   roles:
     - install_packages
 
-- hosts: A_group
-  vars:
-    install_packages_name:
-      "{{ A_install_packages_name }}"
+# dnfインストール以外のパッケージインストール
+# インストールに必要なepelとpipのインストール
+- hosts: www
+  become: true
   roles:
-    - install_packages
+    - epel
+    - pip3
 
-- hosts: B_group
-  vars:
-    install_packages_name:
-      "{{ B_install_packages_name }}"
+# dnfではインストールできないパッケージのインストール
+- hosts: www
+  become: true
   roles:
-    - install_packages
+    - install_other_packages

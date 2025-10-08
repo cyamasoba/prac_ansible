@@ -2,10 +2,10 @@
 # plinkディレクトリが存在するか確認
 - name: Ensure file "plink" exists
   file:
-    path: /home/{{ansible_info.name}}/package/plink
+    path: /home/{{ansible_user_info.name}}/package/plink
     state: "directory"
-    owner: "{{ ansible_info.name }}"
-    group: "{{ ansible_info.name }}"
+    owner: "{{ ansible_user_info.name }}"
+    group: "{{ ansible_user_info.name }}"
     mode: "755"
 #解凍ツールのダウンロード
 - name: install unzip
@@ -17,4 +17,4 @@
 - name: install plink
   unarchive:
     src: package/plink_linux_x86_64_20250819.zip
-    dest: /home/{{ansible_info.name}}/package/plink/
+    dest: /home/{{ansible_user_info.name}}/package/plink/

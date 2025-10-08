@@ -1,5 +1,5 @@
 ---
-- hosts: www
+- hosts: all
   become: true
   vars:
     user_info: "{{ (group_user_info | default([])) + (host_user_info | default([])) }}" # groupはgroup_vars/all/user.ymlで指定、hostはhost_vars/*で指定

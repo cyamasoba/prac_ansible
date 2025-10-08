@@ -2,22 +2,22 @@
 # authorized_keysディレクトリが存在するか確認
 - name: Ensure file "authorized_keys" exists
   file:
-    path: /home/{{ ansible_info.name }}/.ssh/authorized_keys
+    path: /home/{{ ansible_user_info.name }}/.ssh/authorized_keys
     state: "touch"
-    owner: "{{ ansible_info.name }}"
-    group: "{{ ansible_info.name }}"
+    owner: "{{ ansible_user_info.name }}"
+    group: "{{ ansible_user_info.name }}"
     mode: "600"
 
 # ターゲットに対してコントローラの公開鍵の認証
 - name: Sent pubkey
   authorized_key:
-    user: "{{ ansible_info.name }}"
+    user: "{{ ansible_user_info.name }}"
     state: present
-    key: "{{ lookup('file', '/home/{{ ansible_info.name }}/.ssh/id_rsa.pub')}}"
+    key: "{{ lookup('file', '/home/{{ ansible_user_info.name }}/.ssh/id_rsa.pub')}}"
 
 # # ターゲットの公開鍵をコントローラに送信
 # - name: Get ssh pubkey
 #   fetch:
-#     src: /home/{{ ansible_info.name }}/.ssh/id_rsa.pub
+#     src: /home/{{ ansible_user_info.name }}/.ssh/id_rsa.pub
 #     dest: ~/tmp/auth_key/
 #     flat: yes
