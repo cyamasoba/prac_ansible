@@ -1,4 +1,11 @@
 ---
+# 既にclustalwがインストールされていないか確認
+- name: Check clustalw is not already installed
+  stat:
+    path: /usr/local/bin/clustalw2
+  register:
+    clustalw_status
+
 # clustalwディレクトリが存在するか確認
 - name: Ensure file "clustalw" exists
   file:
@@ -7,18 +14,24 @@
     owner: "{{ ansible_user_info.name }}"
     group: "{{ ansible_user_info.name }}"
     mode: "755"
+  when:
+    not clustalw_status.stat.exists
 
 #解凍ツールのダウンロード
 - name: install tar
   dnf:
     name: tar
     state: present
+  when:
+    not clustalw_status.stat.exists
 
 #clustalwのインストール
 - name: unzip clustalw
   unarchive:
     src: package/clustalw-2.1.tar.gz
     dest: /home/{{ansible_user_info.name}}/package/clustalw/
+  when:
+    not clustalw_status.stat.exists
 
 #コンパイラのダウンロード
 - name: install compiler
@@ -27,24 +40,34 @@
       - gcc
       - gcc-c++
     state: present
+  when:
+    not clustalw_status.stat.exists
 
 - name: configure clustalw
   command: './configure'
   args:
     chdir:
       /home/{{ansible_user_info.name}}/package/clustalw/clustalw-2.1
+  when:
+    not clustalw_status.stat.exists
 
 #makeのダウンロード
 - name: install make
   dnf:
     name: make
     state: present
+  when:
+    not clustalw_status.stat.exists
 
 - name: clustalw make
   community.general.make:
     chdir: /home/{{ansible_user_info.name}}/package/clustalw/clustalw-2.1
+  when:
+    not clustalw_status.stat.exists
 
 - name: clustalw install
   community.general.make:
     target: install
     chdir: /home/{{ansible_user_info.name}}/package/clustalw/clustalw-2.1
+  when:
+    not clustalw_status.stat.exists
