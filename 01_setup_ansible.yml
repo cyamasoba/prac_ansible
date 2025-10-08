@@ -8,9 +8,4 @@
       - "{{ ansible_user_info }}"
   roles:
     - create_user
-    - create_sshkey
-    - auth_key4target
-
-- hosts: localhost
-  roles:
-    - auth_key4controller
+    - auth_key

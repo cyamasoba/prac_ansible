@@ -1,16 +1,4 @@
 ---
-- hosts: create_ansibleuser
-  vars:
-    ansible_user: root
-  roles:
-    - create_user
-    - create_sshkey
-    - auth_key4target
-
-- hosts: localhost
-  roles:
-    - auth_key4controller
-
 - hosts: replication_group
   become: true
   roles:

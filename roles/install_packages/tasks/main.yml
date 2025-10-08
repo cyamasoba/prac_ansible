@@ -2,5 +2,5 @@
 # パッケージのインストール
 - name: install_packages
   dnf:
-    name: install_pkg
+    name: "{{ install_pkg }}"
     state: present
