@@ -2,36 +2,44 @@
 # .sshディレクトリが存在するか確認
 - name: Ensure file "authorized_keys" exists
   file:
-    path: /home/{{ ansible_user_info.name }}/.ssh
+    path: /home/{{ item.name }}/.ssh
     state: directory
-    owner: "{{ ansible_user_info.name }}"
-    group: "{{ ansible_user_info.name }}"
+    owner: "{{ item.name }}"
+    group: "{{ item.name }}"
     mode: "700"
+  with_items:
+    "{{ user_info }}"
 
 # authorized_keysファイルが存在するか確認
 - name: Ensure file "authorized_keys" exists
   file:
-    path: /home/{{ ansible_user_info.name }}/.ssh/authorized_keys
+    path: /home/{{ item.name }}/.ssh/authorized_keys
     state: touch
-    owner: "{{ ansible_user_info.name }}"
-    group: "{{ ansible_user_info.name }}"
+    owner: "{{ item.name }}"
+    group: "{{ item.name }}"
     mode: "600"
+  with_items:
+    "{{ user_info }}"
 
 # 秘密鍵をcontrolからコピー
 - name: copy private key
   copy:
     src: ./files/id_gb_rsa
-    dest: /home/{{ansible_user_info.name}}/.ssh/
+    dest: /home/{{item.name}}/.ssh/
+  with_items:
+    "{{ user_info }}"
 
 # 公開鍵をcontrolからコピー
 - name: copy public key
   copy:
     src: ./files/id_gb_rsa.pub
-    dest: /home/{{ansible_user_info.name}}/.ssh/
+    dest: /home/{{item.name}}/.ssh/
+  with_items:
+    "{{ user_info }}"
 
 # ターゲットに対してコントローラの公開鍵の認証
 - name: Sent pubkey
   authorized_key:
-    user: "{{ ansible_user_info.name }}"
+    user: "{{ controller_user_info.name }}"
     state: present
-    key: "{{ lookup('file', '/home/{{ ansible_user_info.name }}/.ssh/id_rsa.pub')}}"
+    key: "{{ lookup('file', '/home/{{ controller_user_info.name }}/.ssh/id_rsa.pub')}}"
