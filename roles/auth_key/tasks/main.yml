@@ -1,0 +1,37 @@
+---
+# .sshディレクトリが存在するか確認
+- name: Ensure file "authorized_keys" exists
+  file:
+    path: /home/{{ ansible_user_info.name }}/.ssh
+    state: directory
+    owner: "{{ ansible_user_info.name }}"
+    group: "{{ ansible_user_info.name }}"
+    mode: "700"
+
+# authorized_keysファイルが存在するか確認
+- name: Ensure file "authorized_keys" exists
+  file:
+    path: /home/{{ ansible_user_info.name }}/.ssh/authorized_keys
+    state: touch
+    owner: "{{ ansible_user_info.name }}"
+    group: "{{ ansible_user_info.name }}"
+    mode: "600"
+
+# 秘密鍵をcontrolからコピー
+- name: copy private key
+  copy:
+    src: ./files/id_gb_rsa
+    dest: /home/{{ansible_user_info.name}}/.ssh/
+
+# 公開鍵をcontrolからコピー
+- name: copy public key
+  copy:
+    src: ./files/id_gb_rsa.pub
+    dest: /home/{{ansible_user_info.name}}/.ssh/
+
+# ターゲットに対してコントローラの公開鍵の認証
+- name: Sent pubkey
+  authorized_key:
+    user: "{{ ansible_user_info.name }}"
+    state: present
+    key: "{{ lookup('file', '/home/{{ ansible_user_info.name }}/.ssh/id_rsa.pub')}}"
