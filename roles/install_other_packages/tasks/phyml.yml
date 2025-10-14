@@ -1,4 +1,13 @@
 ---
+# 既にphymlがインストールされていないか確認
+- name: Check phyml is not already installed
+  stat:
+    path: /usr/local/bin/phyml
+  register:
+    phyml_status
+  when:
+    not phyml_status.stat.exists
+
 # phymlディレクトリが存在するか確認
 - name: Ensure directory "phyml" exists
   file:
@@ -7,6 +16,8 @@
     owner: "{{ ansible_user_info.name }}"
     group: "{{ ansible_user_info.name }}"
     mode: "755"
+  when:
+    not phyml_status.stat.exists
 
 # gitのプロキシ設定
 - name: set git proxy
@@ -14,6 +25,8 @@
     name: http.proxy
     value: "{{ http_proxy }}"
     scope: global
+  when:
+    not phyml_status.stat.exists
 
 # gitからphymlをクローン
 - name: clone phyml from git
@@ -21,30 +34,42 @@
     repo: https://github.com/stephaneguindon/phyml.git
     dest: /home/{{ ansible_user_info.name }}/package/phyml
     force: yes
+  when:
+    not phyml_status.stat.exists
 
 # 必要なモジュールをインストール
 - name: install dh-autoreconf
   dnf:
     name: dh-autoreconf
     state: present
+  when:
+    not phyml_status.stat.exists
 
 # shellで実行
 - name: sh autogen.sh
   shell: sh ./autogen.sh
   args:
     chdir: /home/{{ ansible_user_info.name }}/package/phyml
+  when:
+    not phyml_status.stat.exists
 
 #makeのダウンロード
 - name: install make
   dnf:
     name: make
     state: present
+  when:
+    not phyml_status.stat.exists
 
 - name: phyml make
   community.general.make:
     chdir: /home/{{ ansible_user_info.name }}/package/phyml
+  when:
+    not phyml_status.stat.exists
 
 - name: phyml install
   community.general.make:
     target: install
     chdir: /home/{{ ansible_user_info.name }}/package/phyml
+  when:
+    not phyml_status.stat.exists
