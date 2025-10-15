@@ -5,6 +5,10 @@
   roles:
     - dnf
 
+# common_pkg : group_vars/all/default.yml で定義
+# group_pkg : group_vars/*_group.yml で定義
+# role_pkg : group_vars/* で定義
+# host_pkg : host_vars/* で定義
 - hosts: all
   vars:
     install_pkg: "{{ (common_pkg | default([])) + (group_pkg | default([])) + (role_pkg | default([])) + (host_pkg | default([])) }}"
