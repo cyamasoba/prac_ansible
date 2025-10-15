@@ -1,3 +1,7 @@
 ---
 # host_user_info:
 #   - {name: 'yama', pass: 'Password-3', uid: 501, group: "{{ user_groups[1].name}}", groups: 'wheel', comment: 'test', home: '/home/yama', createhome: 'yes', state: 'present' }
+
+firewalld_host:
+  services:
+    - { name: ssh , zone: internal , state: enabled , immediate: true , permanent: true }

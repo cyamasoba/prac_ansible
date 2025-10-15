@@ -1,0 +1,87 @@
+---
+# すべて共通の設定(group_vars/all/firewalld.yml)
+- name: setup common firewall from service
+  firewalld:
+    service: "{{ item.name }}"
+    zone: "{{ item.zone }}"
+    state: "{{ item.state }}"
+    immediate: "{{ item.immediate }}"
+    permanent: "{{ item.permanent }}"
+  with_items:
+    "{{ firewalld.services }}"
+  notify:
+    restart firewalld
+  when:
+    firewalld.services is defined
+
+- name: setup common firewall from port
+  firewalld:
+    port: "{{ item.name }}"
+    zone: "{{ item.zone }}"
+    state: "{{ item.state }}"
+    immediate: "{{ item.immediate }}"
+    permanent: "{{ item.permanent }}"
+  with_items:
+    "{{ firewalld.ports }}"
+  notify:
+    restart firewalld
+  when:
+    firewalld.ports is defined
+
+# groupごとの設定(group_vars/*)
+- name: setup group firewall from service
+  firewalld:
+    service: "{{ item.name }}"
+    zone: "{{ item.zone }}"
+    state: "{{ item.state }}"
+    immediate: "{{ item.immediate }}"
+    permanent: "{{ item.permanent }}"
+  with_items:
+    "{{ firewalld_group.services }}"
+  notify:
+    restart firewalld
+  when:
+    firewalld_group.services is defined
+
+- name: setup group firewall from port
+  firewalld:
+    port: "{{ item.name }}"
+    zone: "{{ item.zone }}"
+    state: "{{ item.state }}"
+    immediate: "{{ item.immediate }}"
+    permanent: "{{ item.permanent }}"
+  with_items:
+    "{{ firewalld_group.ports }}"
+  notify:
+    restart firewalld
+  when:
+    firewalld_group.ports is defined
+
+# hostごとの設定(host_vars/*)
+- name: setup host firewall from service
+  firewalld:
+    service: "{{ item.name }}"
+    zone: "{{ item.zone }}"
+    state: "{{ item.state }}"
+    immediate: "{{ item.immediate }}"
+    permanent: "{{ item.permanent }}"
+  with_items:
+    "{{ firewalld_host.services }}"
+  notify:
+    restart firewalld
+  when:
+    firewalld_host.services is defined
+
+- name: setup host firewall from port
+  firewalld:
+    port: "{{ item.name }}"
+    zone: "{{ item.zone }}"
+    state: "{{ item.state }}"
+    immediate: "{{ item.immediate }}"
+    permanent: "{{ item.permanent }}"
+  with_items:
+    "{{ firewalld_host.ports }}"
+  notify:
+    restart firewalld
+  when:
+    firewalld_host.ports is defined
