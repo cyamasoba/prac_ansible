@@ -5,4 +5,3 @@
     user_info: "{{ (group_user_info | default([])) + (host_user_info | default([])) }}" # groupはgroup_vars/all/user.ymlで指定、hostはhost_vars/*で指定
   roles:
     - create_user
-    - auth_key
