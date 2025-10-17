@@ -1,0 +1,5 @@
+# PyMySQLのインストール
+- name: install PyMySQL
+  pip:
+    name: PyMySQL
+    state: present

@@ -3,6 +3,8 @@
   become: true
   roles:
     - dnf
+    - pip3
+    - pymysql
 
 - hosts: db-src
   become: true

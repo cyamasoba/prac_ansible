@@ -8,7 +8,6 @@
     port: 3306/tcp
     state: enabled
 
-
 # configを設定してmysqldを起動(./template/にテンプレート用意)
 - name: Setting MySQL
   template:
@@ -21,6 +20,12 @@
     state: started
     enabled: yes
 
+# MySQLユーザが存在するか確認
+- name: Check MySQL user exist
+  command: |-
+    mysql --user root --execute="select count(user) from mysql.user where user = '{{ mysql_info.dbuser }}';"
+  register:
+    mysqluser_exist
 
 # MySQLユーザ作成(ユーザ名、パスワードはreplication_group.ymlで指定)
 # どのようにしてもmysql_userモジュールではパスワードのプラグインをsha2に変更できなかったため作成後にコマンドで変更
@@ -32,9 +37,14 @@
     priv: "*.*:ALL"
     state: present
     column_case_sensitive: true
+  when:
+    mysqluser_exist.stdout_lines[1] == "0"
 
 - name: Change user plugin
-  command: mysql --user {{ mysql_info.dbuser }} --password={{ mysql_info.dbpass }} --connect-expired-password --execute="ALTER USER '{{ mysql_info.dbuser }}'@'%' IDENTIFIED WITH caching_sha2_password BY '{{ mysql_info.dbpass }}';"
+  command: |-
+    mysql --user {{ mysql_info.dbuser }} --password={{ mysql_info.dbpass }} --connect-expired-password --execute="ALTER USER '{{ mysql_info.dbuser }}'@'%' IDENTIFIED WITH caching_sha2_password BY '{{ mysql_info.dbpass }}';"
+  when:
+    mysqluser_exist.stdout_lines[1] == "0"
 
 
 # 確認用のデータベースを作成
