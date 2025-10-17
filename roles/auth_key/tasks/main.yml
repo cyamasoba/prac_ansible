@@ -21,21 +21,21 @@
   with_items:
     "{{ user_info }}"
 
-# 秘密鍵をcontrolからコピー
-- name: copy private key
-  copy:
-    src: ./files/id_gb_rsa
-    dest: /home/{{item.name}}/.ssh/
-  with_items:
-    "{{ user_info }}"
+# # 秘密鍵をcontrolからコピー
+# - name: copy private key
+#   copy:
+#     src: ./files/id_gb_rsa
+#     dest: /home/{{item.name}}/.ssh/
+#   with_items:
+#     "{{ user_info }}"
 
-# 公開鍵をcontrolからコピー
-- name: copy public key
-  copy:
-    src: ./files/id_gb_rsa.pub
-    dest: /home/{{item.name}}/.ssh/
-  with_items:
-    "{{ user_info }}"
+# # 公開鍵をcontrolからコピー
+# - name: copy public key
+#   copy:
+#     src: ./files/id_gb_rsa.pub
+#     dest: /home/{{item.name}}/.ssh/
+#   with_items:
+#     "{{ user_info }}"
 
 # ターゲットに対してコントローラの公開鍵の認証
 - name: Sent controller pubkey
@@ -44,11 +44,11 @@
     state: present
     key: "{{ lookup('file', '/home/{{ controller_user_info.name }}/.ssh/id_rsa.pub')}}"
     
-# ターゲットに対してサーバ共通の公開鍵の認証
-- name: Sent shared pubkey
-  authorized_key:
-    user: "{{ item.name }}"
-    state: present
-    key: "{{ lookup('file', './files/id_gb_rsa.pub')}}"
-  with_items:
-    "{{ user_info }}"
+# # ターゲットに対してサーバ共通の公開鍵の認証
+# - name: Sent shared pubkey
+#   authorized_key:
+#     user: "{{ item.name }}"
+#     state: present
+#     key: "{{ lookup('file', './files/id_gb_rsa.pub')}}"
+#   with_items:
+#     "{{ user_info }}"
