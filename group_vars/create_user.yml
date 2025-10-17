@@ -1,7 +1,0 @@
----
-# ansible実行時の設定
-ansbile_become: true
-
-#作成するユーザ情報
-# group_user_info:
-#   - {name: 'yamada', password: 'Password-3', uid: 501, group: 'yamada', groups: 'wheel', comment: 'test', home: '/home/yamada', createhome: 'yes', state: 'present' }

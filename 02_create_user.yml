@@ -2,6 +2,8 @@
 - hosts: all
   become: true
   vars:
-    user_info: "{{ (group_user_info | default([])) + (host_user_info | default([])) }}" # groupはgroup_vars/all/user.ymlで指定、hostはhost_vars/*で指定
+    # commonはgroup_vars/all/user.ymlで指定、groupはgroup_vars/*.ymlで指定、hostはhost_vars/*.ymlで指定
+    user_groups: "{{ (common_user_groups | default([])) + (group_user_groups | default([])) + (host_user_groups | default([])) }}" 
+    user_info: "{{ (common_user_info | default([])) + (group_user_info | default([])) + (host_user_info | default([])) }}" 
   roles:
     - create_user

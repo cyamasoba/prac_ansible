@@ -21,10 +21,10 @@ ansible_user_info:
 
 ansible_become_password: "{{ user_pass.ansible }}"
 
-user_groups:
+common_user_groups:
   - {name: 'mesw', gid: 499, state: 'present'}
 
-group_user_info:
+common_user_info:
   - {name: 'mesw', pass: "{{ user_pass.mesw }}", uid: 499, group: "{{ user_groups[0].name }}", groups: 'wheel', comment: 'management acount', home: '/home/mesw', createhome: 'yes', state: 'present' }
 
 sudoers: |

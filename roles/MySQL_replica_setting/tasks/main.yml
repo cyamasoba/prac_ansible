@@ -51,7 +51,7 @@
 - name : set replication
   shell: >
     mysql -u root --execute="change replication source to
-    source_host='{{ groups['source_server'][0] }}',
+    source_host='{{ hostvars['db-src']['ansible_host'] }}',
     source_port={{ mysql_info.port }},
     source_user='{{ mysql_info.dbuser }}',
     source_password='{{ mysql_info.dbpass }}',

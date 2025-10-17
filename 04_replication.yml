@@ -4,12 +4,12 @@
   roles:
     - dnf
 
-- hosts: source_server
+- hosts: db-src
   become: true
   roles:
     - MySQL_source_setting
 
-- hosts: replica_server
+- hosts: db-rep
   become: true
   roles:
     - MySQL_replica_setting

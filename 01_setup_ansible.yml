@@ -1,5 +1,5 @@
 ---
-- hosts: all
+- hosts: db
   vars:
     ansible_user: root
     user_groups:
