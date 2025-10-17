@@ -18,14 +18,19 @@
 
 # dnfインストール以外のパッケージインストール
 # インストールに必要なepelとpipのインストール
-- hosts: www
+- hosts: work_web_group
   become: true
   roles:
     - epel
     - pip3
 
+- hosts: work_web_group
+  become: true
+  roles:
+    - r
+
 # dnfではインストールできないパッケージのインストール
-- hosts: www
+- hosts: pubweb
   become: true
   roles:
     - install_other_packages

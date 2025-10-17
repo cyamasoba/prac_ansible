@@ -5,8 +5,6 @@
     path: /usr/local/bin/phyml
   register:
     phyml_status
-  when:
-    not phyml_status.stat.exists
 
 # phymlディレクトリが存在するか確認
 - name: Ensure directory "phyml" exists

@@ -1,7 +1,4 @@
 ---
-- include_tasks: r.yml
-  tags: r_install
-
 - include_tasks: plink.yml
   tags: plink_install
 
